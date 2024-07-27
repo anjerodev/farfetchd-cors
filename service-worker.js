@@ -22,7 +22,7 @@ async function getCurrentTab() {
   return tab;
 }
 
-const whiteList = ["http://localhost:5173", "https://getit.buildbuddy.one"];
+const whiteList = ["http://localhost:5173", "https://farfetchd.buildbuddy.one"];
 
 function checkCurrentTabAndUpdateRules() {
   getCurrentTab().then((tab) => {
