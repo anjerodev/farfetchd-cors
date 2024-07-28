@@ -4,13 +4,13 @@ const RULES_ID = {
   ORIGIN: "overwrite-origin",
 };
 
-chrome.runtime.onInstalled.addListener(() => {
-  console.log("Extension Installed");
-});
+// chrome.runtime.onInstalled.addListener(() => {
+//   console.log("Extension Installed");
+// });
 
-chrome.declarativeNetRequest.getEnabledRulesets((rulesetIds) => {
-  console.log("Initial enabled rulesets:", rulesetIds);
-});
+// chrome.declarativeNetRequest.getEnabledRulesets((rulesetIds) => {
+//   console.log("Initial enabled rulesets:", rulesetIds);
+// });
 
 chrome.tabs.onActivated.addListener(() => {
   checkCurrentTabAndUpdateRules();
