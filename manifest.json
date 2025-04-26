@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Farfetchd CORS",
-  "version": "1.0",
+  "version": "2.0",
   "description": "A simple extension that allow to test API endpoints from Farfetchd overwriting the Access-Control-Allow-Origin header.",
   "permissions": ["declarativeNetRequest", "tabs"],
   "host_permissions": ["<all_urls>"],
