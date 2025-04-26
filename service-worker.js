@@ -1,4 +1,9 @@
-"use strict";
+("use strict");
+
+if (typeof browser == "undefined") {
+  // Chrome does not support the browser namespace yet.
+  globalThis.browser = chrome;
+}
 
 const whiteListPatterns = [/^http:\/\/localhost:\d+/, /^https:\/\/farfetchd\./];
 
@@ -6,12 +11,11 @@ const RULES_ID = {
   ORIGIN: "overwrite-origin",
 };
 
-chrome.tabs.onActivated.addListener(() => {
+browser.tabs.onActivated.addListener(() => {
   checkCurrentTabAndUpdateRules();
 });
 
-// Listener for tab URL updates
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   // Check if the URL changed and the tab is active
   if (changeInfo.url && tab.active) {
     checkCurrentTabAndUpdateRules();
@@ -20,7 +24,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 async function getCurrentTab() {
   let queryOptions = { active: true, lastFocusedWindow: true };
-  let [tab] = await chrome.tabs.query(queryOptions);
+  let [tab] = await browser.tabs.query(queryOptions);
   return tab;
 }
 
@@ -41,7 +45,7 @@ function checkCurrentTabAndUpdateRules() {
 function enableRules(rulesIds) {
   const rules = Array.isArray(rulesIds) ? rulesIds : [rulesIds];
 
-  chrome.declarativeNetRequest.updateEnabledRulesets(
+  browser.declarativeNetRequest.updateEnabledRulesets(
     { enableRulesetIds: rules },
     () => {
       setIcon(true);
@@ -52,7 +56,7 @@ function enableRules(rulesIds) {
 function disableRules(rulesIds) {
   const rules = Array.isArray(rulesIds) ? rulesIds : [rulesIds];
 
-  chrome.declarativeNetRequest.updateEnabledRulesets(
+  browser.declarativeNetRequest.updateEnabledRulesets(
     { disableRulesetIds: rules },
     () => {
       setIcon(false);
@@ -75,9 +79,9 @@ function setIcon(isActive) {
         128: "icons/disabled/icon128_disabled.png",
       };
 
-  chrome.action.setIcon({ path: path }, () => {
-    if (chrome.runtime.lastError) {
-      console.error(chrome.runtime.lastError);
+  browser.action.setIcon({ path: path }, () => {
+    if (browser.runtime.lastError) {
+      console.error(browser.runtime.lastError);
     }
   });
 }

@@ -13,7 +13,7 @@
       ]
     },
     "condition": {
-      "resourceTypes": ["xmlhttprequest", "websocket", "webtransport", "other"]
+      "resourceTypes": ["xmlhttprequest", "websocket", "other"]
     }
   }
 ]

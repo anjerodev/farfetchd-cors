@@ -6,6 +6,7 @@
   "permissions": ["declarativeNetRequest", "tabs"],
   "host_permissions": ["<all_urls>"],
   "background": {
+    "scripts": ["service-worker.js"],
     "service_worker": "service-worker.js",
     "type": "module"
   },
@@ -31,5 +32,11 @@
     "32": "icons/icon32.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "farfetchd-cors@anjero.dev",
+      "strict_min_version": "109.0"
+    }
   }
 }
