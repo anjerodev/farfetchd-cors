@@ -12,6 +12,8 @@
         }
       ]
     },
-    "condition": {}
+    "condition": {
+      "resourceTypes": ["xmlhttprequest", "websocket", "webtransport", "other"]
+    }
   }
 ]

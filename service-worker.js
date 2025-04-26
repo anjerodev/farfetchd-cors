@@ -1,19 +1,21 @@
 "use strict";
 
+const whiteListPatterns = [/^http:\/\/localhost:\d+/, /^https:\/\/farfetchd\./];
+
 const RULES_ID = {
   ORIGIN: "overwrite-origin",
 };
 
-// chrome.runtime.onInstalled.addListener(() => {
-//   console.log("Extension Installed");
-// });
-
-// chrome.declarativeNetRequest.getEnabledRulesets((rulesetIds) => {
-//   console.log("Initial enabled rulesets:", rulesetIds);
-// });
-
 chrome.tabs.onActivated.addListener(() => {
   checkCurrentTabAndUpdateRules();
+});
+
+// Listener for tab URL updates
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  // Check if the URL changed and the tab is active
+  if (changeInfo.url && tab.active) {
+    checkCurrentTabAndUpdateRules();
+  }
 });
 
 async function getCurrentTab() {
@@ -22,14 +24,15 @@ async function getCurrentTab() {
   return tab;
 }
 
-const whiteList = ["http://localhost:5173", "https://farfetchd.buildbuddy.one"];
-
 function checkCurrentTabAndUpdateRules() {
   getCurrentTab().then((tab) => {
-    if (tab.url && whiteList.some((url) => tab.url.startsWith(url))) {
+    if (
+      tab &&
+      tab.url &&
+      whiteListPatterns.some((pattern) => pattern.test(tab.url))
+    ) {
       enableRules([RULES_ID.ORIGIN]);
     } else {
-      // Disable rules
       disableRules([RULES_ID.ORIGIN]);
     }
   });
